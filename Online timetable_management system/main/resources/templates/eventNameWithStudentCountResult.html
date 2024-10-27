@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Name with Student Count Result</title>
+</head>
+ <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        span {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+<body>
+    <h1>Event Name with Student Count Result</h1>
+    <p>Department: <span th:text="${department}"></span></p>
+    <table>
+        <tr>
+            <th>Event Name</th>
+            <th>Student Count</th>
+        </tr>
+        <tr th:each="eventCount : ${eventCounts}">
+            <td th:text="${eventCount[0]}"></td>
+            <td th:text="${eventCount[1]}"></td>
+        </tr>
+    </table>
+    <a th:href="@{/findEventNameWithStudentCountByDepartment}" class="btn btn-primary btn-sm mb-3">Search again</a>
+    <a th:href="@{/}" class="btn btn-primary">Home</a>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Student</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>       
+</head>
+<body>
+    <div class="container my-2">
+        <h1>Add Student</h1>
+        <form th:object="${student}" th:action="@{/students/saveStudent}" method="post">
+            <div class="form-group">
+                <label for="firstName">First Name:</label>
+                <input type="text" class="form-control" id="firstName" th:field="*{firstName}">
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name:</label>
+                <input type="text" class="form-control" id="lastName" th:field="*{lastName}">
+            </div>
+            <div class="form-group">
+                <label for="dateOfBirth">Date of Birth (yyyy-MM-dd):</label>
+                <input type="text" class="form-control" id="dateOfBirth" th:field="*{dateOfBirth}">
+            </div>
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <input type="text" class="form-control" id="address" th:field="*{address}">
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" class="form-control" id="email" th:field="*{email}">
+            </div>
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number:</label>
+                <input type="text" class="form-control" id="phoneNumber" th:field="*{phoneNumber}">
+            </div>
+            <div class="form-group">
+                <label for="registeredEventName">Registered Event Name:</label>
+                <input type="text" class="form-control" id="registeredEventName" th:field="*{registeredEventName}">
+            </div>
+            <div class="form-group">
+    <label for="participation">Participation:</label>
+    <input type="text" class="form-control" id="participation" th:field="*{participation}">
+</div>
+            <div class="form-group">
+                <label for="department">Department:</label>
+                <input type="text" class="form-control" id="department" th:field="*{department}">
+            </div>
+            <div class="form-group">
+                <label for="registeredDate">Registered Date (yyyy-MM-dd):</label>
+                <input type="text" class="form-control" id="registeredDate" th:field="*{registeredDate}" required>
+            </div>
+             <div class="form-group">
+                <label for="registrationFee">Registration Fee:</label>
+                <input type="text" class="form-control" id="registrationFee" th:field="*{registrationFee}" required>
+            </div>
+            <div class="form-group">
+                <label for="feePaid">Fee Paid (0 for false, 1 for true):</label>
+                <input type="number" class="form-control" id="feePaid" th:field="*{feePaid}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="registrationStatus">Registration Status:</label>
+                <input type="text" class="form-control" id="registrationStatus" th:field="*{registrationStatus}" th:value="${student.feePaid == student.registrationFee} ? 'Paid' : 'Not Paid'" readonly>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+
+    <script>
+    const feePaidInput = document.getElementById("feePaid");
+    const registrationFeeInput = document.getElementById("registrationFee");
+    const participationInput = document.getElementById("participation");
+    const registrationStatusInput = document.getElementById("registrationStatus");
+
+    feePaidInput.addEventListener("input", updateRegistrationStatus);
+
+    function updateRegistrationStatus() {
+        const feePaid = parseFloat(feePaidInput.value);
+        const registrationFee = parseFloat(registrationFeeInput.value);
+        const participation = participationInput.value;
+
+        if (isNaN(feePaid) || isNaN(registrationFee)) {
+            registrationStatusInput.value = "Not Registered";
+        } else if (participation === "no") {
+            registrationStatusInput.value = "Not Registered";
+        } else if (feePaid === 0) {
+            registrationStatusInput.value = "Not Paid";
+        } else if (feePaid > 0 && feePaid < registrationFee) {
+            registrationStatusInput.value = "Partially Paid";
+        } else if (feePaid === registrationFee) {
+            registrationStatusInput.value = "Paid";
+        } else {
+            registrationStatusInput.value = "Not Registered";
+        }
+    }
+
+    // Initialize the registration status
+    updateRegistrationStatus();
+</script>
+</body>
+</html>

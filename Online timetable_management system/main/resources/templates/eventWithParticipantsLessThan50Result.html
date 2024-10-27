@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Result: Events with Participants Less Than 50</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            text-decoration: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Events with Participants Less Than 50</h2>
+
+<p>Department: <span th:text="${department}"></span></p>
+<p>Registered Event Name: <span th:text="${registeredEventName}"></span></p>
+
+<table border="2">
+    <thead>
+        <tr>
+            <th>Event Name</th>
+            <th>Participants Count</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="event : ${eventsWithParticipantsLessThan50}">
+            <td th:text="${event[0]}"></td>
+            <td th:text="${event[1]}"></td>
+        </tr>
+    </tbody>
+</table>
+
+<a th:href="@{/findEventWithParticipantsLessThan50Form}" class="btn">Search again</a>
+<a th:href="@{/}" class="btn">Home</a>
+
+</body>
+</html>

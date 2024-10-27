@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students Registered for Event - Result</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Add any additional styling or scripts if needed -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #dee2e6; /* Add this line to set border for cells */
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Registered Students for Event: <span th:text="${eventName}"></span></h1>
+        
+        <table class="table table-striped" border="3"> <!-- Add border attribute -->
+            <thead>
+                <tr>
+                    <!-- Adjust the headers based on the structure of your 'registeredStudents' list -->
+                    <th>Student ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Phone number</th>
+                    <th>Email</th>
+                    <!-- Add more columns as needed -->
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Iterate through 'registeredStudents' and display each student -->
+                <tr th:each="student : ${registeredStudents}" class="table-light">
+                    <td th:text="${student[0] != null ? student[0] : ''}"></td>
+                    <td th:text="${student[1] != null ? student[1] : ''}"></td>
+                    <td th:text="${student[2] != null ? student[2] : ''}"></td>
+                    <td th:text="${student[3] != null ? student[3] : ''}"></td>
+                    <td th:text="${student[4] != null ? student[4] : ''}"></td>
+                    <!-- Add more cells based on the structure of your 'registeredStudents' list -->
+                </tr>
+            </tbody>
+        </table>
+        
+         <a th:href="@{/findStudentsRegisteredForEventForm}" class="btn">Search again</a>
+        <a th:href="@{/}" class="btn">Home</a>
+    </div>
+</body>
+</html>

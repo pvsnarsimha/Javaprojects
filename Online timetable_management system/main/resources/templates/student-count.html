@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Student Count</title>
+</head>
+<style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #cce5ff; /* Change the color on hover */
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>   
+<body>
+    <h1>Student Count</h1>
+
+    <p>Number of students in department: <span th:text="${count}"></span></p>
+
+    <form method="get" action="/students/countByDepartmentAndEventName">
+        <label for="department">Department:</label>
+        <input type="text" id="department" name="department" th:value="${department}" required>
+
+        <label for="registeredeventname">Registered Event Name:</label>
+        <input type="text" id="registeredeventname" name="registeredeventname" th:value="${registeredeventname}" required>
+
+        <button type="submit">Count</button>
+    </form>
+
+    <a href="/students">Back to Student List</a>
+    <a th:href="@{/}" class="btn btn-primary">Home</a>
+</body>
+</html>

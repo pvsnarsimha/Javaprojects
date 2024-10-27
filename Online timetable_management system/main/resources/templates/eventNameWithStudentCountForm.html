@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Find Event Name with Student Count by Department</title>
+</head>
+<style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        span {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+<body>
+    <h1>Find Event Name with Student Count by Department</h1>
+    <form th:action="@{/findEventNameWithStudentCountByDepartmentResult}" method="post">
+        <label for="department">Department:</label>
+        <input type="text" id="department" name="department" required>
+        <button type="submit">Search</button>
+          <a th:href="@{/}" class="btn btn-primary">Home</a>
+    </form>
+</body>
+</html>

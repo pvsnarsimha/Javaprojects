@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Names with Ticket Prices</title>
+
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Event Names with Ticket Prices</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Event Name</th>
+                <th>Ticket Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Iterate through the list of event names with ticket prices -->
+            <tr th:each="event : ${eventNamesWithTicketPrices}">
+                <!-- Assuming the array contains event name at index 0 and ticket price at index 1 -->
+                <td th:text="${event[0]}"></td>
+                <td th:text="${event[1]}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Chart.js Canvas -->
+    <canvas id="myChart" style="width:100%;max-width:800px; margin: 20px;"></canvas>
+
+    <!-- Thymeleaf inline JavaScript to get data from the server -->
+    <script th:inline="javascript">
+        var eventNames = [ "Fashion Show 2023", "Food Festival 2023", "Environmental Expo 2023",
+  "Gaming Tournament 2023", "Photography Exhibition 2023", "Debate Competition 2023",
+  "Robotics Showcase 2023", "Hiking Expedition 2023", "Pre-Event Workshop 1",
+  "Pre-Event Workshop 2", "Event Promotion Seminar", "Art Exhibition 2023",
+  "Hackathon 2023", "Samyak Fest 2023", "Eco Awareness Summit", "Startup Pitch Day",
+  "Music and Arts Expo", "Tech Expo 2023", "Innovation Fair 2023", "Startup Summit 2023",
+  "Exclusive Exhibition 12", "Bespoke Symposium 13", "Premium Conference 15",
+  "Sports Championship 2023", "Science Fair 2023", "Cultural Festival 2023",
+  "Tech Expo 2023", "Music Fest 2023", "Engineering Hackathon 2023", "Literary Fest 2023",
+  "Startup Fair 2023", "Health and Wellness Expo 2023", "Film Festival 2023",
+  "Tech Symposium 2023", "Science and Technology Expo 2024"];
+        var ticketPrices = [ 5.0, 7.0, 4.5, 6.0, 5.5, 7.0, 4.0, 6.5, 5.0, 5.0, 6.0, 6.0, 10.0, 12.0, 14.0, 16.0, 18.0,
+  14.0, 16.0, 18.0, 14.2, 15.5, 18.5, 5.0, 8.0, 10.0, 3.0, 7.0, 6.5, 5.5, 9.0, 4.0, 7.5, 10.0, 30.0];
+
+        new Chart("myChart", {
+            type: "line",
+            data: {
+                labels: eventNames,
+                datasets: [{
+                    label: "Ticket Price",
+                    backgroundColor: "rgba(0,0,255,0.5)",
+                    borderColor: "rgba(0,0,255,1.0)",
+                    data: ticketPrices
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{ ticks: { beginAtZero: true } }]
+                }
+            }
+        });
+    </script>
+
+</body>
+<a th:href="@{/}" class="btn btn-primary">Home</a>
+</html>

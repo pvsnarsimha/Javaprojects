@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Student</title>
+</head>
+<style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+        }
+    </style>
+    <h1>Edit Student</h1>
+    <form th:object="${student}" th:action="@{/students/updateStudent}" method="post">
+        <input type="hidden" th:field="*{studentId}" />
+        <div>
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" th:field="*{firstName}" />
+        </div>
+        <div>
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" th:field="*{lastName}" />
+        </div>
+        <div>
+            <label for="dateOfBirth">Date of Birth (yyyy-MM-dd):</label>
+            <input type="text" id="dateOfBirth" th:field="*{dateOfBirth}" />
+        </div>
+        <div>
+            <label for="address">Address:</label>
+            <input type="text" id="address" th:field="*{address}" />
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input type="text" id="email" th:field="*{email}" />
+        </div>
+        <div>
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="text" id="phoneNumber" th:field="*{phoneNumber}" />
+        </div>
+        <div>
+            <label for="registeredEventName">Registered Event Name:</label>
+            <input type="text" id="registeredEventName" th:field="*{registeredEventName}" />
+        </div>
+        <div>
+            <label for="department">Department:</label>
+            <input type="text" id="department" th:field="*{department}" />
+        </div>
+        <div class="form-group">
+    <label for="participation">Participation:</label>
+    <input type="text" class="form-control" id="participation" th:field="*{participation}">
+</div>
+        <div>
+            <label for="registeredDate">Registered Date (yyyy-MM-dd):</label>
+            <input type="text" id="registeredDate" th:field="*{registeredDate}" />
+        </div>
+        <div class="form-group">
+            <label for="registrationFee">Registration Fee:</label>
+            <input type="text" class="form-control" id="registrationFee" th:field="*{registrationFee}" required>
+        </div>
+        <div class="form-group">
+            <label for="feePaid">Fee Paid (0 for false, 1 for true):</label>
+            <input type="number" class="form-control" id="feePaid" th:field="*{feePaid}" required>
+        </div>
+        <div class="form-group">
+            <label for="registrationStatus">Registration Status:</label>
+            <input type="text" class="form-control" id="registrationStatus" th:field="*{registrationStatus}" th:value="${student.feePaid == student.registrationFee} ? 'Paid' : 'Not Paid'" readonly>
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+    
+<script>
+    const feePaidInput = document.getElementById("feePaid");
+    const registrationFeeInput = document.getElementById("registrationFee");
+    const participationInput = document.getElementById("participation");
+    const registrationStatusInput = document.getElementById("registrationStatus");
+
+    feePaidInput.addEventListener("input", updateRegistrationStatus);
+
+    function updateRegistrationStatus() {
+        const feePaid = parseFloat(feePaidInput.value);
+        const registrationFee = parseFloat(registrationFeeInput.value);
+        const participation = participationInput.value;
+
+        if (isNaN(feePaid) || isNaN(registrationFee)) {
+            registrationStatusInput.value = "Not Registered";
+        } else if (participation === "no") {
+            registrationStatusInput.value = "Not Registered";
+        } else if (feePaid === 0) {
+            registrationStatusInput.value = "Not Paid";
+        } else if (feePaid > 0 && feePaid < registrationFee) {
+            registrationStatusInput.value = "Partially Paid";
+        } else if (feePaid === registrationFee) {
+            registrationStatusInput.value = "Paid";
+        } else {
+            registrationStatusInput.value = "Not Registered";
+        }
+    }
+
+    // Initialize the registration status
+    updateRegistrationStatus();
+</script>
+</body>
+</html>

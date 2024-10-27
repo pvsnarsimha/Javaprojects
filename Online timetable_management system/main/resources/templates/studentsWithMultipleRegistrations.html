@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Students with Multiple Registrations</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 2px solid #ddd; /* Add border */
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Students with Multiple Registrations</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Student ID</th>
+            <th>Registration Count</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Loop through the result and display each row -->
+        <tr th:each="studentRow : ${studentsWithMultipleRegistrations}">
+            <td th:text="${studentRow[0]}"></td>
+            <td th:text="${studentRow[1]}"></td>
+        </tr>
+    </tbody>
+</table>
+<a th:href="@{/}">Home</a>
+</body>
+</html>

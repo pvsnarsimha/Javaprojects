@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Event Management System</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+    <style>
+        /* Your provided dropdown CSS */
+        .dropbtn {
+            background-color: #3498DB;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropbtn:hover, .dropbtn:focus {
+            background-color: #2980B9;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown a:hover {background-color: #ddd;}
+
+        .show {display: block;}
+        
+         body {
+            background-color: #f0f0f0; /* Light Gray Background Color */
+        }
+    </style>
+</head>
+<body style="background-color:white;">
+
+<div class="container my-2">
+    <h1><b><br>Online Timetable Management System</b></br></h1>
+    <h2><b><br>Events Management</b></br></h2>
+     <div class="dropdown">
+        <button onclick="toggleEventsDropdown()" class="dropbtn">Events</button>
+        <div id="eventsDropdown" class="dropdown-content">
+            <a th:href="@{/showNewEventForm}">Add Event</a>
+            <a th:href="@{/showFormForUpdate/4}">Edit Event</a>
+            <a th:href="@{/deleteEvent/{id}}">Delete Event</a>
+            <a th:href="@{/countEventsOnDate}">Event Dates</a>
+            <a th:href="@{/eventNamesAndDeadlinesByDateForm}">Scheduled events list</a>
+            <a th:href="@{/countEventsByStatusForm}">Events count with status</a>
+             <a th:href="@{/bookTicketsForm/2}">Book Tickets</a>
+             <a th:href="@{/findStudentsWithMultipleRegistrations}">Students with multiple registration</a>
+             <a th:href="@{/findEventWithParticipantsLessThan50Form}">Less paticipants lists</a> 
+             <a th:href="@{/studentsWithRegistrationStatusNotRegistered}">Unregistered students list</a> 
+             <a th:href="@{/findStudentsRegisteredForEventForm}">Find registered students with registered event names</a> 
+             <a th:href="@{/findStudentsRegisteredBeforeDeadline}">Find registered students before deadline</a> 
+             <a th:href="@{/findEventTicketsAvailability}">Tickets Avaliablity</a>
+              <a th:href="@{/findEventsByDateRangeForm}">Events names with scheduled dates</a>
+              
+        </div>
+    </div>
+
+    <!-- Your dropdown for Student Details -->
+    <div class="dropdown">
+        <button onclick="toggleStudentsDropdown()" class="dropbtn">Student Details</button>
+        <div id="studentsDropdown" class="dropdown-content">
+            <a th:href="@{/students}">Students List</a>
+            <a th:href="@{/countStudentsByDepartmentAndEventName}">Count participated students list</a>
+            <a th:href="@{/findEventNameWithStudentCountByDepartment}">Count of students participated in events</a>
+            <a th:href="@{/findDepartmentWithMaxStudents}">Find maximum number of students with department</a>
+            <a th:href="@{/findEventWithMaxStudentsSubquery}">Count max number of students with event name</a>
+            <a th:href="@{/findDepartmentWithMaxParticipants}">Max number of participants with department</a>
+            <a th:href="@{/findEventsWithDaysLeftForRegistration}">Registartion deadline remainder</a>
+            <a th:href="@{/findStudentsByRegistrationDateRangeForm}">Find students with registered dates</a>
+            <a th:href="@{/event-names-with-ticket-prices}">events with tickets</a>
+        </div>
+    </div>
+    
+    <div class="dropdown">
+    <button onclick="toggleExitDropdown()" class="dropbtn">Exit</button>
+    <div id="exitDropdown" class="dropdown-content">
+        <button onclick="exitIndexPage()">Exit</button>
+    </div>
+</div>
+</form>
+    <table border="1" class="table table-striped table-responsive-md">
+        <thead>
+        <tr>
+			 <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=eventName&sortDir=' + ${reverseSortDir}}">
+                    Event ID</a>
+            </th>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=eventName&sortDir=' + ${reverseSortDir}}">
+                    Event Name</a>
+            </th>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=date&sortDir=' + ${reverseSortDir}}">
+                    Date</a>
+            </th>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=location&sortDir=' + ${reverseSortDir}}">
+                    Location</a>
+            </th>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=eventType&sortDir=' + ${reverseSortDir}}">
+                    Event Type</a>
+            </th>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=organizer&sortDir=' + ${reverseSortDir}}">
+                    Organizer</a>
+            </th>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=description&sortDir=' + ${reverseSortDir}}">
+                    Description</a>
+            </th>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=ticketsAvailable&sortDir=' + ${reverseSortDir}}">
+                    Tickets Available</a>
+            </th>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=ticketPrice&sortDir=' + ${reverseSortDir}}">
+                    Ticket Price</a>
+            </th>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=registrationDeadline&sortDir=' + ${reverseSortDir}}">
+                    Registration Deadline</a>
+            </th>
+            
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=status&sortDir=' + ${reverseSortDir}}">
+                    Status</a>
+            </th>
+             
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=status&sortDir=' + ${reverseSortDir}}">
+                    threshold</a>
+            </th>
+             
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="event : ${listEvents}">
+			  <td th:text="${event.id}"></td>
+            <td th:text="${event.eventName}"></td>
+            <td th:text="${event.date}"></td>
+            <td th:text="${event.location}"></td>
+            <td th:text="${event.eventType}"></td>
+            <td th:text="${event.organizer}"></td>
+            <td th:text="${event.description}"></td>
+            <td th:text="${event.ticketsAvailable}"></td>
+            <td th:text="${event.ticketPrice}"></td>
+            <td th:text="${event.registrationDeadline}"></td>
+             <td th:text="${event.status}"></td>
+             <td th:text="${event.threshold}"></td>
+           
+        </tr>
+        </tbody>
+    </table>
+    <div th:if="${totalPages > 1}">
+        <div class="row col-sm-10">
+            <div class="col-sm-2">
+                Total Rows and total no of events: [[${totalItems}]]
+            </div>
+            <div class="col-sm-1">
+                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                    <a th:if="${currentPage != i}"
+                       th:href="@{'/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+                    <span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
+                </span>
+            </div>
+            <div class="col-sm-1">
+                <a th:if="${currentPage < totalPages}"
+                   th:href="@{'/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+                <span th:unless="${currentPage < totalPages}">Next</span>
+            </div>
+            <div class="col-sm-1">
+                <a th:if="${currentPage < totalPages}"
+                   th:href="@{'/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+                <span th:unless="${currentPage < totalPages}">Last</span>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function toggleEventsDropdown() {
+        document.getElementById("eventsDropdown").classList.toggle("show");
+    }
+
+    function toggleStudentsDropdown() {
+        document.getElementById("studentsDropdown").classList.toggle("show");
+    }
+
+function toggleExitDropdown() {
+        document.getElementById("exitDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            for (var i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+  function exitIndexPage() {
+        window.location.href = '/exit'; // Change this to the endpoint you want to navigate to
+
+        // Close the browser window (works in internal browsers)
+        window.close();
+    }
+</script>
+</body>
+</html>
