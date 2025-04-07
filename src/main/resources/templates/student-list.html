@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            border: 1px solid #dee2e6;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .btn-group {
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            margin-right: 10px;
+        }
+
+        .total-students {
+            font-weight: bold;
+        }
+
+        /* Additional Styles for Ticket Availability Distribution */
+        .chart-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Student List</h1>
+        <div class="btn-group">
+            <a th:href="@{/students/add}" class="btn btn-primary">Add Student</a>
+            <a th:href="@{/DisplayStudentsByDepartmentAndEventName}" class="btn btn-primary">Participating Students List</a>
+            <a th:href="@{/}" class="btn btn-primary">Go to the main page</a>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Date of Birth</th>
+                    <th>Address</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Registered Event Name</th>
+                    <th>Department</th>
+                    <th>Registered Date</th>
+                    <th>Registration Fee</th>
+                    <th>Fee Paid</th>
+                    <th>Registration Status</th>
+                    <th>Participation</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="student : ${students}" th:class="${'odd'} ? 'odd' : 'even'">
+                    <td th:text="${student.studentId}"></td>
+                    <td th:text="${student.firstName}"></td>
+                    <td th:text="${student.lastName}"></td>
+                    <td th:text="${student.dateOfBirth}"></td>
+                    <td th:text="${student.address}"></td>
+                    <td th:text="${student.email}"></td>
+                    <td th:text="${student.phoneNumber}"></td>
+                    <td th:text="${student.registeredEventName}"></td>
+                    <td th:text="${student.department}"></td>
+                    <td th:text="${student.registeredDate}"></td>
+                    <td th:text="${student.registrationFee}"></td>
+                    <td th:text="${student.feePaid}"></td>
+                    <td th:text="${student.registrationStatus}"></td>
+                    <td th:text="${student.participation}"></td>
+                    <td>
+                        <a th:href="@{'/students/edit/' + ${student.studentId}}" class="btn btn-primary">Edit</a>
+                        <a th:href="@{'/students/delete/' + ${student.studentId}}" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="15" class="total-students">Total Students: <span th:text="${students.size()}"></span></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <!-- Ticket Availability Distribution Section -->
+    <header>
+        <h1>Participation status</h1>
+    </header>
+
+    <div class="chart-container">
+        <div id="ticketAvailabilityChart" style="width: 100%; max-width: 600px; height: 500px;"></div>
+    </div>
+
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            // Set Data
+            const data = google.visualization.arrayToDataTable([
+                ['Participation Status', 'Count'],
+                ['Yes', 54],
+                ['No', 3]
+            ]);
+
+            // Set Options
+            const options = {
+                title: 'Participation status',
+                is3D: true
+            };
+
+            // Draw
+            const chart = new google.visualization.PieChart(document.getElementById('ticketAvailabilityChart'));
+            chart.draw(data, options);
+        }
+    </script>
+    <div class="chart-container">
+        <canvas id="participationBarChart" th:style="'width:100%;max-width:600px;height:400px'"></canvas>
+    </div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        // Dummy data for participation_status (you can replace it with your actual data)
+        var participationData = {
+            'Yes': 54,
+            'No': 3
+        };
+
+        // Get the canvas element and context for Bar Chart
+        var participationBarCanvas = document.getElementById('participationBarChart');
+        var participationBarCtx = participationBarCanvas.getContext('2d');
+
+        // Create the Bar Chart
+        var participationBarChart = new Chart(participationBarCtx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(participationData),
+                datasets: [{
+                    label: 'Participation Status Count',
+                    data: Object.values(participationData),
+                    backgroundColor: ['#36A2EB', '#FF6384'], // Colors for 'Yes' and 'No'
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Participation Status Distribution',
+                }
+            }
+        });
+        /*]]>*/
+    </script>
+</body>
+
+</html>

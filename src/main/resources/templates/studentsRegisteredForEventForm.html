@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Students Registered for Event</title>
+</head>
+<body>
+    <h2>Enter Event Name</h2>
+   <form th:action="@{/findStudentsRegisteredForEventResult}" method="post">
+        <label for="eventName">Event Name:</label>
+        <input type="text" id="eventName" name="eventName" required>
+        <br>
+        <button type="submit">Search</button>
+    </form>
+    <a th:href="@{/}" class="btn">Home</a>
+</body>
+</html>

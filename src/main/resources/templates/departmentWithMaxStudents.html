@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Department with Max Students</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 20px;
+        }
+
+        h2 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd; /* Table border color */
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2; /* Alternate row color */
+        }
+    </style>
+</head>
+<body>
+    <h1>Department with Max Students</h1>
+
+    <table>
+        <tr>
+            <th>Department</th>
+            <th>Max Students</th>
+        </tr>
+        <tr th:each="row : ${departmentWithMaxStudents}">
+            <td th:text="${row[0]}"></td>
+            <td th:text="${row[1]}"></td>
+        </tr>
+    </table>
+
+    <a th:href="@{/}" class="btn btn-primary">Home</a>
+</body>
+</html>

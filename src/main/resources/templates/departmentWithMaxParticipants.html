@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Departments with Max Participants</title>
+    <link rel="stylesheet" href="your-css-file.css"> <!-- Include your CSS file for styling -->
+   <style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8f9fa;
+        margin: 20px;
+    }
+
+    h1 {
+        color: #007bff;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: auto;
+    }
+
+    form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+        border: 1px solid #ddd; /* Add border to the table */
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #cce5ff;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+</head>
+<body>
+    <h1>Departments with Max Participants</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Department</th>
+                <th>Max Participants</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <th:block th:each="entry : ${departmentWithMaxParticipants}">
+                <tr>
+                    <td th:text="${entry[0]}"></td>
+                    <td th:text="${entry[1]}"></td>
+
+                </tr>
+            </th:block>
+        </tbody>
+    </table>
+    <a th:href="@{/}" class="btn btn-primary">Home</a>
+    <td>
+    <span th:if="${students != null}" th:text="${students.size()}">0</span>
+</td>
+</body>
+</html>

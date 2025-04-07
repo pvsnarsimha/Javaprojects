@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students Registered Before Deadline</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        a.btn {
+            display: block;
+            width: 100px;
+            padding: 10px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #4CAF50;
+            color: white;
+            margin: 20px auto;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Students Registered Before Deadline</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Registered Date</th>
+                <th>Registered Event Name</th>
+                <th>Event Date</th>
+                <th>Registration Deadlines</th>
+                <!-- Add more columns as needed based on your query result -->
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Loop through the result and display each row -->
+            <tr th:each="studentInfo : ${studentsBeforeDeadline}">
+                <td th:text="${studentInfo[0]}"></td>
+                <td th:text="${studentInfo[1]}"></td>
+                <td th:text="${studentInfo[2]}"></td>
+                <td th:text="${studentInfo[3]}"></td>
+                <td th:text="${studentInfo[4]}"></td>
+                <td th:text="${studentInfo[5]}"></td>
+                <td th:text="${studentInfo[6]}"></td>
+                <!-- Add more columns as needed based on your query result -->
+            </tr>
+        </tbody>
+    </table>
+    
+    <a th:href="@{/}" class="btn">Home</a>
+</body>
+</html>
